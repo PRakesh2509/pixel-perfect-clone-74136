@@ -16,15 +16,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+    supabase.auth.getUser().then(async ({ data }) => {
+      setEmail(data.user?.email ?? null);
+      if (data.user) {
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", data.user.id)
+          .eq("role", "admin")
+          .maybeSingle();
+        setIsAdmin(!!roles);
+      }
+    });
   }, []);
 
   async function signOut() {
     await supabase.auth.signOut();
     navigate({ to: "/auth", replace: true });
   }
+
+  const items = isAdmin ? [...nav, { to: "/admin" as const, label: "Admin" }] : nav;
 
   return (
     <div className="min-h-screen">
@@ -37,7 +51,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             PlaceAI
           </Link>
           <nav className="hidden gap-1 md:flex">
-            {nav.map((item) => {
+            {items.map((item) => {
               const active = pathname === item.to;
               return (
                 <Link
