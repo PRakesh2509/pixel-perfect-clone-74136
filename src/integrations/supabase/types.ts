@@ -14,7 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      interview_sessions: {
+        Row: {
+          answer: string | null
+          created_at: string
+          evaluation: Json | null
+          id: string
+          question: string
+          question_type: string | null
+          target_role: string | null
+          user_id: string
+        }
+        Insert: {
+          answer?: string | null
+          created_at?: string
+          evaluation?: Json | null
+          id?: string
+          question: string
+          question_type?: string | null
+          target_role?: string | null
+          user_id: string
+        }
+        Update: {
+          answer?: string | null
+          created_at?: string
+          evaluation?: Json | null
+          id?: string
+          question?: string
+          question_type?: string | null
+          target_role?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          company: string
+          created_at: string
+          description: string
+          id: string
+          location: string | null
+          role: string
+          salary: string | null
+          skills: string[]
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          description: string
+          id?: string
+          location?: string | null
+          role: string
+          salary?: string | null
+          skills?: string[]
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string | null
+          role?: string
+          salary?: string | null
+          skills?: string[]
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          experience: string | null
+          full_name: string | null
+          id: string
+          skills: string[] | null
+          target_role: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          experience?: string | null
+          full_name?: string | null
+          id: string
+          skills?: string[] | null
+          target_role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          experience?: string | null
+          full_name?: string | null
+          id?: string
+          skills?: string[] | null
+          target_role?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resumes: {
+        Row: {
+          analysis: Json | null
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis?: Json | null
+          content: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis?: Json | null
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      roadmaps: {
+        Row: {
+          created_at: string
+          id: string
+          plan: Json
+          target_role: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          plan: Json
+          target_role?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          plan?: Json
+          target_role?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
