@@ -1,0 +1,6 @@
+# PlaceAI
+
+> AI-powered placement platform: resume analysis, job matching, interview prep, and 90-day upskilling roadmaps.
+
+## Pages
+- [Home](/): Product overview and features

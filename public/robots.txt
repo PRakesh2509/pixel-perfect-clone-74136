@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /resume
+Disallow: /jobs
+Disallow: /interview
+Disallow: /roadmap
