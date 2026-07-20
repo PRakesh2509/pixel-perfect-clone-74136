@@ -10,8 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
+import { CheckCircle2, AlertCircle, Sparkles, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useRef } from "react";
+import { extractTextFromFile } from "@/lib/parse-file";
 
 export const Route = createFileRoute("/_authenticated/resume")({
   head: () => ({ meta: [{ title: "Resume Analyzer — PlaceAI" }] }),
