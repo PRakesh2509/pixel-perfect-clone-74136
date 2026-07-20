@@ -10,8 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
+import { CheckCircle2, AlertCircle, Sparkles, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useRef } from "react";
+import { extractTextFromFile } from "@/lib/parse-file";
 
 export const Route = createFileRoute("/_authenticated/resume")({
   head: () => ({ meta: [{ title: "Resume Analyzer — PlaceAI" }] }),
@@ -47,22 +49,24 @@ function ResumePage() {
         <Card>
           <CardHeader>
             <CardTitle>Your resume</CardTitle>
-            <CardDescription>Plain text works best.</CardDescription>
+            <CardDescription>Upload a file (.pdf, .docx, .txt) or paste plain text.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Target role (optional)</Label>
               <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="e.g. Backend Engineer" />
             </div>
+            <FileUploadRow onText={setContent} />
             <div className="space-y-2">
               <Label>Resume content</Label>
               <Textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Paste your resume text here…"
-                className="min-h-[360px] font-mono text-sm"
+                placeholder="Paste your resume text here, or upload a file above…"
+                className="min-h-[300px] font-mono text-sm"
               />
             </div>
+
             <Button onClick={() => mutation.mutate()} disabled={mutation.isPending || content.length < 30}>
               <Sparkles className="size-4" /> {mutation.isPending ? "Analyzing…" : "Analyze with AI"}
             </Button>
@@ -127,6 +131,53 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
     <div>
       <div className="mb-2 flex items-center gap-2 text-sm font-medium">{icon}{title}</div>
       {children}
+    </div>
+  );
+}
+
+function FileUploadRow({ onText }: { onText: (text: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  async function handleFile(file: File) {
+    setLoading(true);
+    setFileName(file.name);
+    try {
+      const text = await extractTextFromFile(file);
+      if (!text.trim()) throw new Error("Couldn't extract any text from that file.");
+      onText(text);
+      toast.success(`Loaded ${file.name}`);
+    } catch (e) {
+      toast.error((e as Error).message);
+      setFileName(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <Label>Upload resume file</Label>
+      <div className="flex items-center gap-3">
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".pdf,.docx,.txt,.md,text/plain"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleFile(f);
+            e.target.value = "";
+          }}
+        />
+        <Button type="button" variant="outline" onClick={() => inputRef.current?.click()} disabled={loading}>
+          <Upload className="size-4" /> {loading ? "Reading…" : "Choose file"}
+        </Button>
+        <span className="truncate text-sm text-muted-foreground">
+          {fileName ?? "PDF, DOCX, or TXT up to a few MB"}
+        </span>
+      </div>
     </div>
   );
 }
