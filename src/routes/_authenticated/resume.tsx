@@ -181,5 +181,3 @@ function FileUploadRow({ onText }: { onText: (text: string) => void }) {
     </div>
   );
 }
-
-}
