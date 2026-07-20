@@ -49,22 +49,24 @@ function ResumePage() {
         <Card>
           <CardHeader>
             <CardTitle>Your resume</CardTitle>
-            <CardDescription>Plain text works best.</CardDescription>
+            <CardDescription>Upload a file (.pdf, .docx, .txt) or paste plain text.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Target role (optional)</Label>
               <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="e.g. Backend Engineer" />
             </div>
+            <FileUploadRow onText={setContent} />
             <div className="space-y-2">
               <Label>Resume content</Label>
               <Textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Paste your resume text here…"
-                className="min-h-[360px] font-mono text-sm"
+                placeholder="Paste your resume text here, or upload a file above…"
+                className="min-h-[300px] font-mono text-sm"
               />
             </div>
+
             <Button onClick={() => mutation.mutate()} disabled={mutation.isPending || content.length < 30}>
               <Sparkles className="size-4" /> {mutation.isPending ? "Analyzing…" : "Analyze with AI"}
             </Button>
