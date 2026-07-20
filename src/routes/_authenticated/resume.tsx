@@ -134,3 +134,52 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
     </div>
   );
 }
+
+function FileUploadRow({ onText }: { onText: (text: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  async function handleFile(file: File) {
+    setLoading(true);
+    setFileName(file.name);
+    try {
+      const text = await extractTextFromFile(file);
+      if (!text.trim()) throw new Error("Couldn't extract any text from that file.");
+      onText(text);
+      toast.success(`Loaded ${file.name}`);
+    } catch (e) {
+      toast.error((e as Error).message);
+      setFileName(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <Label>Upload resume file</Label>
+      <div className="flex items-center gap-3">
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".pdf,.docx,.txt,.md,text/plain"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) handleFile(f);
+            e.target.value = "";
+          }}
+        />
+        <Button type="button" variant="outline" onClick={() => inputRef.current?.click()} disabled={loading}>
+          <Upload className="size-4" /> {loading ? "Reading…" : "Choose file"}
+        </Button>
+        <span className="truncate text-sm text-muted-foreground">
+          {fileName ?? "PDF, DOCX, or TXT up to a few MB"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+}
