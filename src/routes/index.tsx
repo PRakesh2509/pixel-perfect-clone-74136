@@ -28,9 +28,9 @@ function Landing() {
   return (
     <div className="min-h-screen bg-hero-gradient">
       {/* Nav */}
-      <header className="mx-auto flex h-16 max-w-6xl items-center px-6">
+      <header className="mx-auto flex h-20 max-w-6xl items-center px-6">
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold">
-          <img src="/logo.png" alt="PlaceAI" className="h-8 w-auto" />
+          <img src="/logo.png" alt="PlaceAI" className="h-12 w-auto" />
         </Link>
         <div className="ml-auto flex items-center gap-2">
           <Button asChild variant="ghost"><Link to="/auth">Sign in</Link></Button>
