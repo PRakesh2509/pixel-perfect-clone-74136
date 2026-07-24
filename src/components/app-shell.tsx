@@ -43,9 +43,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-6">
+        <div className="mx-auto flex h-20 max-w-7xl items-center gap-6 px-6">
           <Link to="/dashboard" className="flex items-center gap-2 font-display text-lg font-semibold">
-            <img src="/logo.png" alt="PlaceAI" className="h-8 w-auto" />
+            <img src="/logo.png" alt="PlaceAI" className="h-12 w-auto" />
           </Link>
           <nav className="hidden gap-1 md:flex">
             {items.map((item) => {
