@@ -30,10 +30,7 @@ function Landing() {
       {/* Nav */}
       <header className="mx-auto flex h-16 max-w-6xl items-center px-6">
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold">
-          <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkles className="size-4" />
-          </span>
-          PlaceAI
+          <img src="/logo.png" alt="PlaceAI" className="h-8 w-auto" />
         </Link>
         <div className="ml-auto flex items-center gap-2">
           <Button asChild variant="ghost"><Link to="/auth">Sign in</Link></Button>
