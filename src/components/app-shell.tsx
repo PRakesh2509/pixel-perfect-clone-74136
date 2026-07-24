@@ -45,10 +45,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-6">
           <Link to="/dashboard" className="flex items-center gap-2 font-display text-lg font-semibold">
-            <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <Sparkles className="size-4" />
-            </span>
-            PlaceAI
+            <img src="/logo.png" alt="PlaceAI" className="h-8 w-auto" />
           </Link>
           <nav className="hidden gap-1 md:flex">
             {items.map((item) => {
